@@ -1,0 +1,110 @@
+import { FarmingStage } from '../types';
+
+export const farmingCalendarsData: Record<string, FarmingStage> = {
+  soybean: {
+    cropName: 'Soybean (सोयाबीन)',
+    season: 'Kharif (June – October)',
+    stages: [
+      {
+        stageName: 'Sowing & Germination (दिवस १–१५)',
+        dayRange: 'Day 1 – 15',
+        description: 'Sow after receiving 75–100 mm monsoon rainfall. Seed depth 3–4 cm. Optimum seed rate 25–30 kg/acre.',
+        irrigationNote: 'Rely on monsoon rain. Avoid water stagnation in seedbed; ensure drainage trenches are open.',
+        fertilizerAction: 'Basal dose: DAP 50kg + MOP 25kg + Sulphur 10kg/acre. Bio-fertilizer (Rhizobium + PSB) seed coating.',
+        pestMonitoring: 'Watch for stem fly and collar rot. Treat seeds with Carboxin + Thiram (2g/kg seed).',
+      },
+      {
+        stageName: 'Vegetative & Branching (दिवस १६–३५)',
+        dayRange: 'Day 16 – 35',
+        description: 'First inter-cultivation (hoeing) and hand weeding at 20–25 days to keep crop weed-free.',
+        irrigationNote: 'If monsoon breaks for >10 days, provide one protective light irrigation if available.',
+        fertilizerAction: 'Foliar spray of 19:19:19 @ 10g/L + Micronutrient mix at 30 days for vigorous branching.',
+        pestMonitoring: 'Deploy yellow sticky traps for whitefly. Watch for early Spodoptera / Girdle beetle attacks.',
+      },
+      {
+        stageName: 'Flowering & Pod Initiation (दिवस ३६–६५)',
+        dayRange: 'Day 36 – 65',
+        description: 'Crucial yield-determining stage. Do NOT perform mechanical inter-cultivation to avoid flower drop.',
+        irrigationNote: 'Critical moisture period. Any moisture stress now reduces pod setting by 40%.',
+        fertilizerAction: 'Spray 00:52:34 (MKP) @ 10g/L + Boron 20% @ 1g/L at peak flower initiation.',
+        pestMonitoring: 'Spray Chlorantraniliprole 18.5% SC (0.3ml/L) or Emamectin Benzoate 5% SG (0.5g/L) for pod borer control.',
+      },
+      {
+        stageName: 'Pod Filling & Maturity (दिवस ६६–९५)',
+        dayRange: 'Day 66 – 95',
+        description: 'Pods turn yellowish-brown and leaves start natural senescence and shedding.',
+        irrigationNote: 'Stop irrigation 10–12 days prior to expected harvest to allow uniform drying.',
+        fertilizerAction: 'Spray 00:00:50 (Potassium Sulphate) @ 10g/L for bold, lustrous, high-oil-content grains.',
+        pestMonitoring: 'Monitor for pod blight (Anthracnose). Spray Tebuconazole 25.9% EC (1ml/L) if wet weather persists.',
+      },
+      {
+        stageName: 'Harvesting & Threshing (दिवस ९५–१०५)',
+        dayRange: 'Day 95 – 105',
+        description: 'Harvest when 90% pods turn brown and seed moisture reaches 13–14% to prevent shattering.',
+        irrigationNote: 'Dry weather required for sun-drying bundles and mechanical threshing.',
+        fertilizerAction: 'No fertilizer needed. Store harvested grain on clean raised tarpaulins with <10% storage moisture.',
+        pestMonitoring: 'Inspect storage bags for grain weevils; use Aluminium Phosphide fumigation if storing long-term.',
+      },
+    ],
+  },
+  cotton: {
+    cropName: 'Cotton / Bt Hybrid (कापूस / कपास)',
+    season: 'Kharif / Annual (June – January)',
+    stages: [
+      {
+        stageName: 'Land Prep & Sowing (दिवस १–२०)',
+        dayRange: 'Day 1 – 20',
+        description: 'Deep summer plowing followed by rotavator. Spacing 4 x 1.5 ft or 3 x 2 ft depending on hybrid.',
+        irrigationNote: 'Sow with monsoon onset or pre-monsoon with drip irrigation. Maintain moist seed zone.',
+        fertilizerAction: 'Basal: 25% Nitrogen, 100% Phosphorus, 50% Potash (e.g. 10:26:26 @ 100kg/acre) + FYM.',
+        pestMonitoring: 'Treat seeds with Imidacloprid (if non-treated). Inspect for cutworms and termites.',
+      },
+      {
+        stageName: 'Square & Early Flowering (दिवस ४०–७०)',
+        dayRange: 'Day 40 – 70',
+        description: 'Formation of flower buds (squares). Active formation of vegetative and fruiting branches.',
+        irrigationNote: 'Maintain uniform soil moisture with drip every 3–4 days; avoid over-flooding.',
+        fertilizerAction: 'Second split Nitrogen (Urea 35kg/acre) + Magnesium Sulphate (10kg/acre) for green leaf retention.',
+        pestMonitoring: 'Install Pink Bollworm Pheromone traps @ 5/acre. Check for whitefly and jassid nymphs.',
+      },
+      {
+        stageName: 'Boll Development & Peak Picking (दिवस ८०–१५०)',
+        dayRange: 'Day 80 – 150',
+        description: 'Bolls swell and mature. First and second pickings commence as lower bolls burst open.',
+        irrigationNote: 'Irrigate after each picking to support upper boll development.',
+        fertilizerAction: 'Foliar spray of 13:00:45 (Potassium Nitrate) @ 10g/L + Planofix (NAA) @ 4ml/15L to stop square drop.',
+        pestMonitoring: 'Strict Pink Bollworm management. Spray Profenophos 50% EC or Indoxacarb if larval count exceeds ETL.',
+      },
+    ],
+  },
+  wheat: {
+    cropName: 'Wheat / Rabi (गेहूं / गहू)',
+    season: 'Rabi (November – March)',
+    stages: [
+      {
+        stageName: 'Sowing & Crown Root Initiation (CRI) (दिवस १–२५)',
+        dayRange: 'Day 1 – 25',
+        description: 'Sowing during optimal temperature window (Nov 1–25). First crucial irrigation at 21 days (CRI stage).',
+        irrigationNote: '1st irrigation at 21–25 days is MUST. Missing CRI stage reduces tillering by 30%.',
+        fertilizerAction: 'Basal: Full Phosphorus and Potash (DAP 55kg + MOP 25kg) + 50% Urea per acre.',
+        pestMonitoring: 'Watch for termite attack; apply Chlorpyrifos 20% EC with sand if detected.',
+      },
+      {
+        stageName: 'Tillering & Jointing (दिवस ३०–६०)',
+        dayRange: 'Day 30 – 60',
+        description: 'Formation of productive tillers and stem elongation.',
+        irrigationNote: '2nd irrigation at Tillering (40-45 days) and 3rd at Jointing (60-65 days).',
+        fertilizerAction: 'Top dress remaining 50% Urea in two equal splits before 2nd and 3rd irrigations.',
+        pestMonitoring: 'Watch for Yellow Rust (Puccinia striiformis). Spray Propiconazole 25% EC (1ml/L) on early patches.',
+      },
+      {
+        stageName: 'Flowering, Milking & Dough Stage (दिवस ७०–११०)',
+        dayRange: 'Day 70 – 110',
+        description: 'Ear emergence, pollination, grain filling from milky to hard dough stage.',
+        irrigationNote: 'Irrigation at Flowering and Milking stages. Avoid irrigation during stormy windy days to prevent lodging.',
+        fertilizerAction: 'Foliar spray of 00:00:50 @ 10g/L during grain filling for plump, heavy grain weight.',
+        pestMonitoring: 'Inspect for Aphids (Mahoon). Spray Thiamethoxam 25% WG (0.3g/L) if aphid colonies appear on ears.',
+      },
+    ],
+  },
+};
