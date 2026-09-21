@@ -55,6 +55,7 @@ export const LearningHub: React.FC<LearningHubProps> = ({ language, onShowToast 
                   <img
                     src={article.imageUrl}
                     alt={article.title}
+                    referrerPolicy="no-referrer"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
@@ -138,10 +139,11 @@ export const LearningHub: React.FC<LearningHubProps> = ({ language, onShowToast 
               </div>
 
               {/* Image Banner */}
-              <div className="rounded-2xl overflow-hidden h-60 w-full bg-slate-100">
+              <div className="rounded-2xl overflow-hidden h-60 w-full bg-slate-100 dark:bg-slate-800">
                 <img
                   src={activeArticle.imageUrl}
                   alt={activeArticle.title}
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
                 />
               </div>

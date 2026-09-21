@@ -45,6 +45,7 @@ export interface CropRecommendationInput {
   farmingGoal?: string;
   budget?: number | string;
   budgetPerAcre?: string;
+  weatherContext?: Partial<WeatherData> | null;
 }
 
 export interface CropRecommendationItem {
@@ -71,6 +72,7 @@ export interface CropRecommendationItem {
   whyRecommended?: string;
   precautions?: string[];
   intercroppingOption?: string;
+  weatherAlignmentNote?: string;
 }
 
 export interface WeatherData {

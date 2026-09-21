@@ -578,7 +578,7 @@ app.post("/api/crop-recommendation", async (req: Request, res: Response) => {
     const input = req.body;
     const {
       state = "Maharashtra",
-      district = "Pune",
+      district = "Buldhana",
       village = "",
       soilType = "Black Soil",
       landArea = 2,
@@ -590,7 +590,17 @@ app.post("/api/crop-recommendation", async (req: Request, res: Response) => {
       farmingObjective = "Maximum Profit",
       budget,
       language = "en",
+      weatherContext,
     } = input;
+
+    const weatherSummary = weatherContext
+      ? `Live Agro-Meteorological Weather Data for ${district}, ${state}:
+- Current Temp: ${weatherContext.temperature ?? 28}°C (Min: ${weatherContext.tempMin ?? 22}°C, Max: ${weatherContext.tempMax ?? 33}°C)
+- Relative Humidity: ${weatherContext.humidity ?? 65}%
+- Rain Probability: ${weatherContext.rainProbability ?? 20}% | Estimated Rainfall: ${weatherContext.rainfallMm ?? 0} mm
+- Sky / Climate: ${weatherContext.weatherCondition ?? weatherContext.condition ?? "Clear / Partly Cloudy"}
+- Wind Speed: ${weatherContext.windSpeedKmh ?? weatherContext.windSpeed ?? 12} km/h`
+      : `Regional Climate: Standard agro-climatic conditions for ${district}, ${state}`;
 
     const apiKey = process.env.GEMINI_API_KEY;
 
@@ -601,7 +611,7 @@ app.post("/api/crop-recommendation", async (req: Request, res: Response) => {
           cropName: "Soybean (JS-335 / JS-9560)",
           hindiName: "सोयाबीन",
           marathiName: "सोयाबीन",
-          suitabilityScore: 93,
+          suitabilityScore: 94,
           isPrimary: true,
           waterRequirement: "Medium",
           growingPeriodDays: "90–105 days",
@@ -610,6 +620,7 @@ app.post("/api/crop-recommendation", async (req: Request, res: Response) => {
           estimatedProfitPerAcre: "₹28,000 – ₹38,000",
           profitMarginPercent: "68%",
           suitableSowingWindow: "15 June – 10 July (after 75-100mm monsoon rainfall)",
+          weatherAlignmentNote: weatherContext ? `Well-suited for current ${weatherContext.temperature}°C & ${weatherContext.humidity}% humidity conditions.` : "Optimized for regional monsoon moisture.",
           fertilizerGuidance: [
             "Basal dose: DAP 50kg + MOP 25kg + Sulphur 10kg per acre",
             "Rhizobium & PSB bio-fertilizer seed treatment (250g each/10kg seed)",
@@ -618,7 +629,6 @@ app.post("/api/crop-recommendation", async (req: Request, res: Response) => {
           riskFactors: [
             "Waterlogging during early germination stage",
             "Pod borer (Spodoptera) attack during pod filling stage",
-            "Market price fluctuations post-harvest",
           ],
           whyRecommended: `Highly compatible with ${soilType} in ${district}, ${state}. High market liquidity, excellent nitrogen fixation for soil fertility, and fits perfectly within the ${season} season under ${waterAvailability} water availability.`,
           precautions: [
@@ -628,10 +638,10 @@ app.post("/api/crop-recommendation", async (req: Request, res: Response) => {
           ],
         },
         {
-          cropName: "Cotton (Bt Hybrid)",
+          cropName: "Cotton / Kapas (Bt Hybrid)",
           hindiName: "कपास (बीटी)",
           marathiName: "कापूस",
-          suitabilityScore: 87,
+          suitabilityScore: 89,
           isPrimary: false,
           waterRequirement: "Medium",
           growingPeriodDays: "150–180 days",
@@ -640,6 +650,7 @@ app.post("/api/crop-recommendation", async (req: Request, res: Response) => {
           estimatedProfitPerAcre: "₹45,000 – ₹65,000",
           profitMarginPercent: "72%",
           suitableSowingWindow: "June to mid-July",
+          weatherAlignmentNote: weatherContext ? `Tolerates ${weatherContext.temperature}°C with moderate irrigation.` : "Ideal for Vidarbha & Deccan black soils.",
           fertilizerGuidance: [
             "NPK 100:50:50 kg/ha split into 3-4 stages",
             "Zinc Sulphate (10kg/acre) and Magnesium Sulphate (10kg/acre) at square formation",
@@ -648,7 +659,7 @@ app.post("/api/crop-recommendation", async (req: Request, res: Response) => {
             "Pink bollworm pest infestation in later stages",
             "Heavy rainfall during boll opening causing cotton discoloration",
           ],
-          whyRecommended: `Excellent cash crop for deep ${soilType} with ${irrigationType}. High return on investment when managed with integrated pest management.`,
+          whyRecommended: `Outstanding cash crop for deep ${soilType} with ${irrigationType} in ${district}. High return on investment when managed with integrated pest management.`,
           precautions: [
             "Install Pheromone traps @ 5 traps/acre for early pest surveillance",
             "Nip the terminal shoot at 80-90 days to encourage sympodial branches",
@@ -658,7 +669,7 @@ app.post("/api/crop-recommendation", async (req: Request, res: Response) => {
           cropName: "Pigeon Pea / Tur (BDN-711 / Maruti)",
           hindiName: "अरहर / तूर",
           marathiName: "तूर / डाळ",
-          suitabilityScore: 84,
+          suitabilityScore: 86,
           isPrimary: false,
           waterRequirement: "Low",
           growingPeriodDays: "140–160 days",
@@ -667,6 +678,7 @@ app.post("/api/crop-recommendation", async (req: Request, res: Response) => {
           estimatedProfitPerAcre: "₹35,000 – ₹48,000",
           profitMarginPercent: "78%",
           suitableSowingWindow: "June to first week of July",
+          weatherAlignmentNote: "Exceptional resilience against erratic weather spells and high temperatures.",
           fertilizerGuidance: [
             "DAP 50kg + Sulphur 10kg at sowing",
             "Foliar spray of 00:52:34 at flower initiation",
@@ -701,7 +713,14 @@ Farming Objective: ${farmingObjective}
 Approx Budget: ${budget ? "₹" + budget : "Standard"}
 Language Preference: ${language}
 
-Recommend 1 primary top choice crop and 2-3 strong alternative crops.
+=== LIVE WEATHER & METEOROLOGICAL CONTEXT ===
+${weatherSummary}
+
+IMPORTANT INSTRUCTIONS:
+1. Deeply analyze how the provided weather metrics (current temperature, min/max range, humidity, rain probability, and weather condition) affect crop germination, evapotranspiration, disease susceptibility, and sowing readiness.
+2. In the "whyRecommended" and "weatherAlignmentNote" fields, explicitly explain how the crop aligns with these specific live weather and soil conditions.
+3. Recommend 1 primary top choice crop and 2-3 strong alternative crops.
+
 Provide strictly formatted JSON matching this structure (Array of Crop items):
 [
   {
@@ -717,9 +736,10 @@ Provide strictly formatted JSON matching this structure (Array of Crop items):
     "estimatedProfitPerAcre": "₹30,000 – ₹42,000",
     "profitMarginPercent": "65%",
     "suitableSowingWindow": "15 June to 5 July",
+    "weatherAlignmentNote": "Explicit explanation of how current temp/humidity/rain probability fits this crop",
     "fertilizerGuidance": ["Guidance 1", "Guidance 2"],
     "riskFactors": ["Risk 1", "Risk 2"],
-    "whyRecommended": "Detailed rationale based on soil, district, and weather...",
+    "whyRecommended": "Detailed rationale factoring soil, district, and current weather context...",
     "precautions": ["Precaution 1", "Precaution 2"]
   }
 ]`;

@@ -157,7 +157,7 @@ export const Hero: React.FC<HeroProps> = ({ language, weatherData, onNavigate })
                   </div>
 
                   <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 line-clamp-2">
-                    Real-time crop disease diagnosis, local market price tickers, and tailored sowing calendars.
+                    Real-time crop disease diagnosis, weather-integrated crop recommendations, and tailored sowing calendars.
                   </p>
                 </div>
               </div>

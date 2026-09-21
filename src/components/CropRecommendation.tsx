@@ -1,38 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Compass,
   Sparkles,
   RefreshCw,
-  TrendingUp,
   Droplets,
-  Calendar,
-  DollarSign,
   AlertTriangle,
   Layers,
-  MapPin,
+  CloudSun,
+  Thermometer,
+  Wind,
+  CloudRain,
   CheckCircle2,
-  HelpCircle,
 } from 'lucide-react';
-import { CropRecommendationInput, CropRecommendationItem, Language } from '../types';
+import { CropRecommendationInput, CropRecommendationItem, Language, WeatherData } from '../types';
 import { apiService } from '../services/api';
 import { translations } from '../i18n/translations';
 
 interface CropRecommendationProps {
   language: Language;
+  weatherData?: WeatherData | null;
   onShowToast: (msg: string) => void;
 }
 
-export const CropRecommendation: React.FC<CropRecommendationProps> = ({ language, onShowToast }) => {
+export const CropRecommendation: React.FC<CropRecommendationProps> = ({
+  language,
+  weatherData,
+  onShowToast,
+}) => {
   const [formInput, setFormInput] = useState<CropRecommendationInput>({
     soilType: 'Black Soil (काळी जमीन)',
     landAreaAcres: 3,
-    state: 'Maharashtra',
-    district: 'Pune',
+    state: weatherData?.state || 'Maharashtra',
+    district: weatherData?.district || 'Buldhana',
     season: 'Kharif (खरीप)',
     waterAvailability: 'Drip Irrigation (ठिबक सिंचन)',
     budgetPerAcre: 'Medium (₹15,000 – ₹30,000/Acre)',
     farmingGoal: 'Maximum Profit (जास्तीत जास्त नफा)',
   });
+
+  useEffect(() => {
+    if (weatherData?.district) {
+      setFormInput((prev) => ({
+        ...prev,
+        district: prev.district === 'Pune' || !prev.district ? weatherData.district : prev.district,
+        state: weatherData.state || prev.state,
+      }));
+    }
+  }, [weatherData]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [recommendations, setRecommendations] = useState<CropRecommendationItem[] | null>(null);
@@ -52,10 +66,15 @@ export const CropRecommendation: React.FC<CropRecommendationProps> = ({ language
         farmingObjective: formInput.farmingGoal,
         farmingGoal: formInput.farmingGoal,
         budget: formInput.budgetPerAcre,
+        weatherContext: weatherData || null,
       };
-      const data = await apiService.getCropRecommendation(payload, language);
+      const data = await apiService.getCropRecommendation(payload, language, weatherData);
       setRecommendations(data);
-      onShowToast('Custom AI Crop Plan calculated successfully!');
+      onShowToast(
+        weatherData
+          ? `Crop plan tailored with live ${weatherData.city || weatherData.district} weather metrics!`
+          : 'Custom AI Crop Plan calculated successfully!'
+      );
     } catch (err: any) {
       onShowToast(err.message || 'Failed to generate crop recommendation');
     } finally {
@@ -70,7 +89,7 @@ export const CropRecommendation: React.FC<CropRecommendationProps> = ({ language
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 text-xs font-bold mb-3 border border-amber-300/40">
             <Compass className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
             <span>AI Multi-Factor Agronomic Planner</span>
@@ -82,6 +101,49 @@ export const CropRecommendation: React.FC<CropRecommendationProps> = ({ language
             {t.subtitle}
           </p>
         </div>
+
+        {/* Live Weather Integration Status Card */}
+        {weatherData && (
+          <div className="max-w-4xl mx-auto mb-10 p-4 rounded-2xl bg-gradient-to-r from-sky-50 via-emerald-50 to-amber-50 dark:from-sky-950/40 dark:via-emerald-950/30 dark:to-amber-950/30 border border-sky-200 dark:border-sky-800/60 shadow-sm">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-sky-500/10 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+                  <CloudSun className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
+                      Live Weather Integration Active
+                    </span>
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300">
+                      Syncing with {weatherData.city || weatherData.district}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                    Crop recommendations will dynamically factor in current temperature, soil moisture, and rainfall forecasts.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 text-xs font-semibold text-slate-700 dark:text-slate-300 bg-white/80 dark:bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 shrink-0">
+                <div className="flex items-center gap-1">
+                  <Thermometer className="w-3.5 h-3.5 text-amber-500" />
+                  <span>{weatherData.temperature}°C</span>
+                </div>
+                <div className="w-px h-3 bg-slate-300 dark:bg-slate-700" />
+                <div className="flex items-center gap-1">
+                  <Droplets className="w-3.5 h-3.5 text-sky-500" />
+                  <span>{weatherData.humidity}% Hum</span>
+                </div>
+                <div className="w-px h-3 bg-slate-300 dark:bg-slate-700" />
+                <div className="flex items-center gap-1">
+                  <CloudRain className="w-3.5 h-3.5 text-blue-500" />
+                  <span>{weatherData.rainProbability}% Rain</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Form Column */}
@@ -236,7 +298,7 @@ export const CropRecommendation: React.FC<CropRecommendationProps> = ({ language
                 {isLoading ? (
                   <>
                     <RefreshCw className="w-4 h-4 animate-spin" />
-                    <span>Calculating Optimal Agro Strategy...</span>
+                    <span>Calculating Optimal Agro & Weather Strategy...</span>
                   </>
                 ) : (
                   <>
@@ -281,6 +343,22 @@ export const CropRecommendation: React.FC<CropRecommendationProps> = ({ language
                       </div>
                     </div>
                   </div>
+
+                  {/* Weather Alignment Banner if available */}
+                  {(crop.weatherAlignmentNote || weatherData) && (
+                    <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 text-xs">
+                      <CloudSun className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+                      <div>
+                        <span className="font-bold text-sky-900 dark:text-sky-300">
+                          Weather Fit Analysis:
+                        </span>{' '}
+                        <span className="text-slate-700 dark:text-slate-300">
+                          {crop.weatherAlignmentNote ||
+                            `Calibrated for ${weatherData?.city || 'local'} temperatures (${weatherData?.temperature || 28}°C) and current seasonal rainfall forecasts.`}
+                        </span>
+                      </div>
+                    </div>
+                  )}
 
                   {/* 4 Core Financial & Agronomic Metrics */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
@@ -398,7 +476,9 @@ export const CropRecommendation: React.FC<CropRecommendationProps> = ({ language
                   Ready to Calculate Crop Strategy
                 </h4>
                 <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mt-1 mb-4">
-                  Fill in your soil type, land size, and irrigation availability on the left, or click below to calculate recommendations immediately.
+                  {weatherData
+                    ? `Live meteorological data for ${weatherData.city || weatherData.district} (${weatherData.temperature}°C, ${weatherData.humidity}% humidity) is ready. Click below to generate your climate-aligned crop plan.`
+                    : 'Fill in your soil type, land size, and irrigation availability on the left, or click below to calculate recommendations immediately.'}
                 </p>
                 <button
                   type="button"
@@ -417,3 +497,4 @@ export const CropRecommendation: React.FC<CropRecommendationProps> = ({ language
     </section>
   );
 };
+

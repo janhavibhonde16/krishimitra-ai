@@ -1,4 +1,5 @@
 import { LearningArticle } from '../types';
+import zbnfJeevamrutImage from '../assets/images/zbnf_jeevamrut_prep_1787035446841.jpg';
 
 export const learningArticlesData: LearningArticle[] = [
   {
@@ -21,7 +22,7 @@ export const learningArticlesData: LearningArticle[] = [
       'Cuts synthetic fertilizer costs by 70–100%',
       'Improves water retention capacity of soil during dry spells',
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1592417817098-8f3d6ef23a3c?auto=format&fit=crop&w=800&q=80',
+    imageUrl: zbnfJeevamrutImage,
   },
   {
     id: 'smart-drip-fertigation',

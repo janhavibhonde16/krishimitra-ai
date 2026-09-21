@@ -115,9 +115,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language, onShow
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="font-bold text-slate-900 dark:text-white">AgriTech Innovation Center</div>
+                    <div className="font-bold text-slate-900 dark:text-white">KrishiMitra Agri Innovation Desk</div>
                     <p className="text-slate-500 dark:text-slate-400">
-                      College of Agriculture Campus, Shivaji Nagar, Pune, Maharashtra 411005
+                      Civil Lines, Collectorate Road, Buldhana, Maharashtra 443001
                     </p>
                   </div>
                 </div>

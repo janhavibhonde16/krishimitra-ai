@@ -75,16 +75,21 @@ export const apiService = {
     }
   },
 
-  // Crop recommendation
+  // Crop recommendation with live weather integration
   async getCropRecommendation(
     input: CropRecommendationInput,
-    language: Language = 'en'
+    language: Language = 'en',
+    weatherContext?: Partial<WeatherData> | null
   ): Promise<CropRecommendationItem[]> {
     try {
       const response = await fetch('/api/crop-recommendation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...input, language }),
+        body: JSON.stringify({
+          ...input,
+          language,
+          weatherContext: weatherContext || input.weatherContext || null,
+        }),
       });
 
       if (!response.ok) {
@@ -106,7 +111,7 @@ export const apiService = {
   },
 
   // Weather query
-  async getWeather(queryCity = 'Pune, Maharashtra', lat?: number, lon?: number): Promise<WeatherData> {
+  async getWeather(queryCity = 'Buldhana, Maharashtra', lat?: number, lon?: number): Promise<WeatherData> {
     try {
       let url = `/api/weather?q=${encodeURIComponent(queryCity)}`;
       if (lat !== undefined && lon !== undefined) {

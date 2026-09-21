@@ -1,6 +1,6 @@
 {
   "name": "KrishiMitra AI – Smart Farming Assistant",
-  "description": "Empowering Indian farmers with AI-driven crop disease detection, live weather advisories, multilingual smart chatbot, personalized crop recommendations, live mandi rates, government schemes, and precision farming tools.",
+  "description": "Empowering Indian farmers with AI-driven crop disease detection, live weather-integrated crop recommendations, multilingual smart chatbot, government schemes, and precision agronomic tools.",
   "requestFramePermissions": ["camera", "geolocation"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

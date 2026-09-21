@@ -5,7 +5,6 @@ import { AIAssistant } from './components/AIAssistant';
 import { DiseaseDetection } from './components/DiseaseDetection';
 import { WeatherDashboard } from './components/WeatherDashboard';
 import { CropRecommendation } from './components/CropRecommendation';
-import { MandiPrices } from './components/MandiPrices';
 import { GovernmentSchemes } from './components/GovernmentSchemes';
 import { LearningHub } from './components/LearningHub';
 import { FarmingCalendar } from './components/FarmingCalendar';
@@ -13,10 +12,8 @@ import { SoilHealth } from './components/SoilHealth';
 import { FarmExpenseCalculator } from './components/FarmExpenseCalculator';
 import { NearbyServices } from './components/NearbyServices';
 import { EmergencyHelp } from './components/EmergencyHelp';
-import { AboutSection } from './components/AboutSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { DeploymentModal } from './components/DeploymentModal';
 import { Toast } from './components/Toast';
 import { Language, Theme, WeatherData } from './types';
 import { apiService } from './services/api';
@@ -33,7 +30,6 @@ export default function App() {
   const [activeSection, setActiveSection] = useState<string>('home');
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [deployGuideOpen, setDeployGuideOpen] = useState(false);
 
   // Sync theme class to documentElement
   useEffect(() => {
@@ -69,11 +65,11 @@ export default function App() {
     }, 3500);
   };
 
-  // Initial weather load
+  // Initial weather load (default to Buldhana, Maharashtra)
   useEffect(() => {
     const loadInitialWeather = async () => {
       try {
-        const data = await apiService.getWeather('Pune, Maharashtra');
+        const data = await apiService.getWeather('Buldhana, Maharashtra');
         setWeatherData(data);
       } catch (err) {
         console.warn('Initial weather load:', err);
@@ -89,7 +85,6 @@ export default function App() {
       'assistant',
       'disease',
       'weather',
-      'mandi',
       'recommendation',
       'schemes',
       'learning',
@@ -98,7 +93,6 @@ export default function App() {
       'calculator',
       'services',
       'emergency',
-      'about',
       'contact',
     ];
 
@@ -146,7 +140,6 @@ export default function App() {
         theme={theme}
         onToggleTheme={handleToggleTheme}
         activeSection={activeSection}
-        onOpenDeployGuide={() => setDeployGuideOpen(true)}
       />
 
       {/* Main Content Sections */}
@@ -179,62 +172,52 @@ export default function App() {
           onShowToast={showToast}
         />
 
-        {/* 5. AI Crop Recommendation Engine */}
+        {/* 5. AI Crop Recommendation Engine (Weather-Integrated) */}
         <CropRecommendation
           language={language}
+          weatherData={weatherData}
           onShowToast={showToast}
         />
 
-        {/* 6. APMC Mandi Rates Live Terminal */}
-        <MandiPrices
-          language={language}
-          onShowToast={showToast}
-        />
-
-        {/* 7. Government Schemes & Subsidies */}
+        {/* 6. Government Schemes & Subsidies */}
         <GovernmentSchemes
           language={language}
           onShowToast={showToast}
         />
 
-        {/* 8. Agronomy Learning Hub */}
+        {/* 7. Agronomy Learning Hub */}
         <LearningHub
           language={language}
           onShowToast={showToast}
         />
 
-        {/* 9. Interactive Farming Calendar */}
+        {/* 8. Interactive Farming Calendar */}
         <FarmingCalendar
           language={language}
         />
 
-        {/* 10. Soil Health & Nutrient Guide */}
+        {/* 9. Soil Health & Nutrient Guide */}
         <SoilHealth
           language={language}
         />
 
-        {/* 11. Farm Expense & Profit Calculator */}
+        {/* 10. Farm Expense & Profit Calculator */}
         <FarmExpenseCalculator
           language={language}
           onShowToast={showToast}
         />
 
-        {/* 12. Nearby Agri Services Directory */}
+        {/* 11. Nearby Agri Services Directory (Buldhana & Vidarbha) */}
         <NearbyServices
           language={language}
         />
 
-        {/* 13. 24x7 Emergency Help & Kisan Helpline */}
+        {/* 12. 24x7 Emergency Help & Kisan Helpline */}
         <EmergencyHelp
           language={language}
         />
 
-        {/* 14. About Startup Mission */}
-        <AboutSection
-          language={language}
-        />
-
-        {/* 15. Support Desk & Contact */}
+        {/* 13. Support Desk & Contact */}
         <ContactSection
           language={language}
           onShowToast={showToast}
@@ -245,14 +228,6 @@ export default function App() {
       <Footer
         language={language}
         onNavigate={navigateTo}
-        onOpenDeployGuide={() => setDeployGuideOpen(true)}
-      />
-
-      {/* Deployment to GitHub/Vercel Guide Modal */}
-      <DeploymentModal
-        isOpen={deployGuideOpen}
-        onClose={() => setDeployGuideOpen(false)}
-        onShowToast={showToast}
       />
 
       {/* Action Toast Notifications */}

@@ -4,8 +4,6 @@ import {
   DollarSign,
   TrendingUp,
   RotateCcw,
-  Printer,
-  Save,
   CheckCircle2,
   AlertCircle,
   Percent,
@@ -78,28 +76,6 @@ export const FarmExpenseCalculator: React.FC<FarmExpenseCalculatorProps> = ({
   const profitPerAcre = acres > 0 ? netProfit / acres : netProfit;
   const roi = totalCost > 0 ? ((netProfit / totalCost) * 100).toFixed(1) : '0';
 
-  const handleSave = () => {
-    try {
-      const state = {
-        acres,
-        landPrep,
-        seeds,
-        fertilizers,
-        pesticides,
-        irrigation,
-        labor,
-        transport,
-        misc,
-        expectedYieldQtl,
-        pricePerQtl,
-      };
-      localStorage.setItem('krishi_calculator_state', JSON.stringify(state));
-      onShowToast('Farm expense calculation saved to your device.');
-    } catch (e) {
-      onShowToast('Failed to save to local storage.');
-    }
-  };
-
   const handleReset = () => {
     setAcres(3);
     setLandPrep(4500);
@@ -114,10 +90,6 @@ export const FarmExpenseCalculator: React.FC<FarmExpenseCalculatorProps> = ({
     setPricePerQtl(4900);
     localStorage.removeItem('krishi_calculator_state');
     onShowToast('Reset to default benchmark values.');
-  };
-
-  const handlePrint = () => {
-    window.print();
   };
 
   return (
@@ -340,29 +312,13 @@ export const FarmExpenseCalculator: React.FC<FarmExpenseCalculatorProps> = ({
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center gap-3 pt-2">
-              <button
-                onClick={handleSave}
-                className="px-4 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl shadow-md flex items-center gap-1.5 cursor-pointer"
-              >
-                <Save className="w-3.5 h-3.5" />
-                <span>Save Calculation</span>
-              </button>
-
-              <button
-                onClick={handlePrint}
-                className="px-4 py-2 text-xs font-bold bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-300 rounded-xl flex items-center gap-1.5 cursor-pointer"
-              >
-                <Printer className="w-3.5 h-3.5" />
-                <span>Print Statement</span>
-              </button>
-
+            <div className="flex items-center justify-end pt-2">
               <button
                 onClick={handleReset}
-                className="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center gap-1.5 cursor-pointer ml-auto"
+                className="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center gap-1.5 cursor-pointer rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>Reset</span>
+                <span>Reset to Defaults</span>
               </button>
             </div>
           </div>

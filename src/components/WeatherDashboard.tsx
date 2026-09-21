@@ -42,7 +42,7 @@ export const WeatherDashboard: React.FC<WeatherDashboardProps> = ({
 
   const handleSearch = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const city = searchCity.trim() || 'Pune, Maharashtra';
+    const city = searchCity.trim() || 'Buldhana, Maharashtra';
     setIsFetching(true);
     try {
       const data = await apiService.getWeather(city);
@@ -99,15 +99,15 @@ export const WeatherDashboard: React.FC<WeatherDashboardProps> = ({
   };
 
   const popularDistricts = [
-    'Pune',
+    'Buldhana',
+    'Akola',
+    'Amravati',
     'Nagpur',
-    'Nashik',
     'Chhatrapati Sambhajinagar',
+    'Nashik',
+    'Pune',
     'Latur',
     'Indore',
-    'Ludhiana',
-    'Jaipur',
-    'Coimbatore',
   ];
 
   return (
@@ -271,7 +271,7 @@ export const WeatherDashboard: React.FC<WeatherDashboardProps> = ({
                     <Calendar className="w-4 h-4 text-sky-600" />
                     <span>{t.forecastTitle}</span>
                   </h3>
-                  <span className="text-xs text-slate-400 font-medium">7-Day Agro Outlook</span>
+                  <span className="text-xs text-slate-400 font-medium">5-Day Agro Outlook</span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2.5">

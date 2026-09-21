@@ -15,10 +15,9 @@ import { translations } from '../i18n/translations';
 interface FooterProps {
   language: Language;
   onNavigate: (sectionId: string) => void;
-  onOpenDeployGuide: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDeployGuide }) => {
+export const Footer: React.FC<FooterProps> = ({ language, onNavigate }) => {
   const t = translations[language].footer;
 
   const scrollToTop = () => {
@@ -67,7 +66,7 @@ export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDepl
               <li>
                 <button
                   onClick={() => onNavigate('assistant')}
-                  className="hover:text-emerald-400 transition-colors"
+                  className="hover:text-emerald-400 transition-colors cursor-pointer"
                 >
                   AI Farm Chatbot
                 </button>
@@ -75,7 +74,7 @@ export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDepl
               <li>
                 <button
                   onClick={() => onNavigate('disease')}
-                  className="hover:text-emerald-400 transition-colors"
+                  className="hover:text-emerald-400 transition-colors cursor-pointer"
                 >
                   Crop Disease Scanner
                 </button>
@@ -83,7 +82,7 @@ export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDepl
               <li>
                 <button
                   onClick={() => onNavigate('weather')}
-                  className="hover:text-emerald-400 transition-colors"
+                  className="hover:text-emerald-400 transition-colors cursor-pointer"
                 >
                   Agro Weather Forecast
                 </button>
@@ -91,17 +90,17 @@ export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDepl
               <li>
                 <button
                   onClick={() => onNavigate('recommendation')}
-                  className="hover:text-emerald-400 transition-colors"
+                  className="hover:text-emerald-400 transition-colors cursor-pointer"
                 >
-                  AI Crop Recommendation
+                  Weather-Linked Crop Planner
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => onNavigate('mandi')}
-                  className="hover:text-emerald-400 transition-colors"
+                  onClick={() => onNavigate('services')}
+                  className="hover:text-emerald-400 transition-colors cursor-pointer"
                 >
-                  APMC Mandi Rates
+                  Nearby Agri Centres & KVK
                 </button>
               </li>
             </ul>
@@ -116,7 +115,7 @@ export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDepl
               <li>
                 <button
                   onClick={() => onNavigate('schemes')}
-                  className="hover:text-emerald-400 transition-colors"
+                  className="hover:text-emerald-400 transition-colors cursor-pointer"
                 >
                   PM-KISAN & Schemes
                 </button>
@@ -124,7 +123,7 @@ export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDepl
               <li>
                 <button
                   onClick={() => onNavigate('learning')}
-                  className="hover:text-emerald-400 transition-colors"
+                  className="hover:text-emerald-400 transition-colors cursor-pointer"
                 >
                   Agronomy Learning Hub
                 </button>
@@ -132,7 +131,7 @@ export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDepl
               <li>
                 <button
                   onClick={() => onNavigate('calendar')}
-                  className="hover:text-emerald-400 transition-colors"
+                  className="hover:text-emerald-400 transition-colors cursor-pointer"
                 >
                   Crop Growth Calendar
                 </button>
@@ -140,7 +139,7 @@ export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDepl
               <li>
                 <button
                   onClick={() => onNavigate('soil')}
-                  className="hover:text-emerald-400 transition-colors"
+                  className="hover:text-emerald-400 transition-colors cursor-pointer"
                 >
                   Soil Health Guide
                 </button>
@@ -148,7 +147,7 @@ export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDepl
               <li>
                 <button
                   onClick={() => onNavigate('calculator')}
-                  className="hover:text-emerald-400 transition-colors"
+                  className="hover:text-emerald-400 transition-colors cursor-pointer"
                 >
                   Expense & ROI Calculator
                 </button>
@@ -156,10 +155,10 @@ export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDepl
             </ul>
           </div>
 
-          {/* Public Portals & Deployment */}
+          {/* Public Portals */}
           <div>
             <h4 className="text-xs font-extrabold uppercase tracking-wider text-white mb-3">
-              Official Portals & Code
+              Official Portals
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
@@ -195,14 +194,16 @@ export const Footer: React.FC<FooterProps> = ({ language, onNavigate, onOpenDepl
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </li>
-              <li className="pt-2">
-                <button
-                  onClick={onOpenDeployGuide}
-                  className="text-emerald-400 font-bold hover:underline flex items-center gap-1"
+              <li>
+                <a
+                  href="https://mahadbt.maharashtra.gov.in"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-emerald-400 transition-colors flex items-center gap-1"
                 >
-                  <span>Deploy to Vercel Guide</span>
+                  <span>MahaDBT Farmer Portal</span>
                   <ExternalLink className="w-3 h-3" />
-                </button>
+                </a>
               </li>
             </ul>
           </div>

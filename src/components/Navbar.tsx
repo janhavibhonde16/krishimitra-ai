@@ -4,7 +4,6 @@ import {
   Bot,
   ScanEye,
   CloudSun,
-  TrendingUp,
   Award,
   BookOpen,
   Calendar,
@@ -18,7 +17,6 @@ import {
   Moon,
   Compass,
   MapPin,
-  ExternalLink,
 } from 'lucide-react';
 import { Language, Theme } from '../types';
 import { translations } from '../i18n/translations';
@@ -29,7 +27,6 @@ interface NavbarProps {
   theme: Theme;
   onToggleTheme: () => void;
   activeSection: string;
-  onOpenDeployGuide: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -38,7 +35,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   theme,
   onToggleTheme,
   activeSection,
-  onOpenDeployGuide,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -63,7 +59,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'assistant', label: t.assistant, icon: Bot },
     { id: 'disease', label: t.disease, icon: ScanEye },
     { id: 'weather', label: t.weather, icon: CloudSun },
-    { id: 'mandi', label: t.mandi, icon: TrendingUp },
     { id: 'recommendation', label: t.recommendation, icon: Compass },
     { id: 'schemes', label: t.schemes, icon: Award },
     { id: 'learning', label: t.learning, icon: BookOpen },
@@ -209,16 +204,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               {theme === 'light' ? <Moon className="w-4 h-4 text-slate-700" /> : <Sun className="w-4 h-4 text-amber-400" />}
             </button>
 
-            {/* GitHub/Vercel Deployment Guide Trigger */}
-            <button
-              id="deploy-guide-btn"
-              onClick={onOpenDeployGuide}
-              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/80 hover:bg-emerald-100 transition-colors"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              <span>Deploy Guide</span>
-            </button>
-
             {/* Emergency Hotline Button */}
             <button
               id="emergency-quick-btn"
@@ -271,16 +256,23 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <button
-                id="mobile-deploy-guide-btn"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenDeployGuide();
-                }}
-                className="text-xs text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1"
+                id="mobile-theme-toggle-btn"
+                onClick={onToggleTheme}
+                className="text-xs px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold flex items-center gap-1.5"
               >
-                <ExternalLink className="w-3.5 h-3.5" />
-                <span>GitHub + Vercel Setup</span>
+                {theme === 'light' ? (
+                  <>
+                    <Moon className="w-3.5 h-3.5 text-slate-700" />
+                    <span>Dark Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Sun className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Light Mode</span>
+                  </>
+                )}
               </button>
+
               <a
                 href="tel:18001801551"
                 className="text-xs bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm"
